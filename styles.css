@@ -6,12 +6,16 @@
 @media(max-width:720px){html{scroll-padding-top:90px}.header,.header.scrolled{height:80px;padding:0 5%}.header nav{display:none}.header-book{min-height:42px;padding:10px 12px;gap:10px}.hero{grid-template-columns:1fr;padding:25px 6% 67px;gap:32px}.hero h1{font-size:76px}.hero-copy>p{font-size:12px}.hero-actions{gap:24px}.hero-location{margin-top:28px}.hero-visual{height:430px;margin:0 6px 0 10px}.welcome-seal{right:-10px;top:20px}.scroll-cue{bottom:16px}.ornament-band{justify-content:flex-start;padding:0 20px;gap:30px;font-size:9px}.section{padding:61px 6%}.about-layout{grid-template-columns:1fr}.about-art{display:none}.about h2{font-size:39px}.about-text{gap:22px;font-size:11px}.section-kicker{font-size:8px;margin-bottom:25px}.section-heading{align-items:flex-start;flex-direction:column;gap:18px}.section-heading h2{font-size:42px}.menu-tabs{margin-top:25px;margin-bottom:25px}.menu-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:26px 15px}.dish-info{grid-template-columns:1fr}.dish-info h3{font-size:22px}.dish-price{font-size:12px;grid-row:3}.dish-weight{grid-row:2}.dish-badge{font-size:6px;padding:5px 7px;top:8px;left:8px}.dish-arrow{display:none}.menu-bottom{align-items:flex-start;flex-direction:column;gap:15px}.gatherings{grid-template-columns:1fr}.gathering-image{min-height:350px}.gathering-copy{padding:46px 8% 54px}.gathering-copy h2{font-size:60px}.gathering-flower{display:block;right:12%;top:100px}.contact-layout{grid-template-columns:1fr;gap:50px}.contact-copy h2{font-size:65px}.contact-card{margin:0 6px}.contact-details address{font-size:13px}.footer-top{flex-wrap:wrap;gap:25px}.footer-top p{font-size:21px;order:3;width:100%}.footer-bottom{flex-wrap:wrap;gap:13px}.footer-bottom>span:nth-child(2){display:none}.booking-dialog{max-width:92vw;padding:40px 24px 28px}.booking-dialog h2{font-size:55px}.dish-dialog{width:92vw}.dish-dialog #dish-content{grid-template-columns:1fr}.dish-dialog img{min-height:0;height:240px}.dish-dialog-info{padding:25px}.dish-dialog-info h2{font-size:36px}}
 @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}*,*:before,*:after{animation:none!important;transition:none!important}.motion-ready .reveal{opacity:1;translate:none}.hero-photo{transform:none!important;will-change:auto}}
 
-/* Original restaurant mark. The supplied PNG is preserved unchanged. */
-.logo-mark{display:block!important;position:relative;width:62px;height:58px;flex:0 0 62px;overflow:hidden;mix-blend-mode:multiply;line-height:0!important}
-.logo-mark img{display:block;width:95px;max-width:none;height:auto;transform:translate(-17px,-5px)}
-.brand{gap:9px}
+/* Transparent restaurant logo; object-fit removes empty side margins only. */
+.logo-mark{display:block!important;position:relative;width:90px;height:80px;flex:0 0 90px;line-height:0!important;mix-blend-mode:normal;overflow:hidden}
+.logo-mark img{display:block;width:100%;height:100%;object-fit:cover;object-position:center;transform:none}
+.brand{gap:14px}
+.header.scrolled .logo-mark{width:76px;height:68px;flex-basis:76px}
+.footer-top .logo-mark{width:108px;height:96px;flex-basis:108px}
 .welcome-seal{background:var(--cream);color:var(--wine)}
-.welcome-seal .logo-mark{margin:4px 0;flex:0 0 58px}
+.welcome-seal .logo-mark{width:80px;height:72px;margin:3px 0;flex:0 0 72px}
 .dialog-logo{display:flex;justify-content:center;margin:0 auto 20px}
-@media(max-width:1200px){.welcome-seal .logo-mark{width:50px;height:45px;flex-basis:45px}.welcome-seal .logo-mark img{width:78px;transform:translate(-14px,-4px)}}
-@media(max-width:960px){.brand .logo-mark{width:49px;height:46px;flex-basis:49px}.brand .logo-mark img{width:76px;transform:translate(-14px,-4px)}}
+.dialog-logo .logo-mark{width:112px;height:100px;flex-basis:112px}
+@media(max-width:1200px){.welcome-seal .logo-mark{width:64px;height:58px;flex-basis:58px;margin:2px 0}}
+@media(max-width:960px){.header .logo-mark,.header.scrolled .logo-mark{width:66px;height:59px;flex-basis:66px}.brand{gap:10px}}
+@media(max-width:720px){.header .logo-mark,.header.scrolled .logo-mark{width:62px;height:55px;flex-basis:62px}.header .brand>span:not(.logo-mark){font-size:22px;letter-spacing:2px}.header .brand small{letter-spacing:1.4px}.header{gap:12px}}

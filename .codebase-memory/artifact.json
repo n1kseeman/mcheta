@@ -1,11 +1,11 @@
 {
     "schema_version": 2,
-    "commit": "a0a532e0b54b1a06685ad0171578a620c2384fb7",
-    "indexed_at": "2026-09-15T16:01:52Z",
+    "commit": "684135ec05aac85ec3e443da4a519e9e7d544861",
+    "indexed_at": "2026-09-15T16:08:56Z",
     "project": "mcheta",
-    "nodes": 43,
-    "edges": 68,
+    "nodes": 47,
+    "edges": 72,
     "original_size": 1703936,
-    "compressed_size": 74151,
+    "compressed_size": 74668,
     "compression_level": 9
 }
