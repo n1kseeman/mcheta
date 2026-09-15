@@ -1,0 +1,11 @@
+{
+    "schema_version": 2,
+    "commit": "HEAD",
+    "indexed_at": "2026-09-15T15:52:09Z",
+    "project": "mcheta",
+    "nodes": 43,
+    "edges": 68,
+    "original_size": 1703936,
+    "compressed_size": 74066,
+    "compression_level": 9
+}
