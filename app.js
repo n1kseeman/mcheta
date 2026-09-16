@@ -4,6 +4,7 @@ const deliveryUrl = 'https://eda.yandex.ru/r/mcxeta?placeSlug=mcxeta_kerchenskay
 const grid = document.querySelector('#menu-grid');
 const dishDialog = document.querySelector('#dish-dialog');
 const bookingDialog = document.querySelector('#booking-dialog');
+const desktopMotion = window.matchMedia('(min-width: 1101px) and (hover: hover)');
 const motionPreference = window.matchMedia('(prefers-reduced-motion: reduce)');
 const categoryDescriptions = {
   khinkali: 'Берите за хвостик и начинайте с маленького укуса. У каждого хинкали свой характер — выбирайте любимую начинку.',
@@ -13,6 +14,55 @@ const categoryDescriptions = {
   hot: 'Для неспешного обеда и тёплого вечера. Грузинская классика, к которой хочется возвращаться.',
   drinks: 'Освежающий аккомпанемент к щедрому грузинскому столу.'
 };
+
+function createIcon(name) {
+  const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+  svg.classList.add('icon');
+  svg.setAttribute('aria-hidden', 'true');
+  svg.setAttribute('focusable', 'false');
+  const use = document.createElementNS('http://www.w3.org/2000/svg', 'use');
+  use.setAttribute('href', `#icon-${name}`);
+  svg.append(use);
+  return svg;
+}
+
+function setupNavigation() {
+  const header = document.querySelector('.header');
+  const toggle = document.querySelector('.nav-toggle');
+  const nav = document.querySelector('#main-nav');
+  const compact = window.matchMedia('(max-width: 1100px)');
+  function setOpen(open, restoreFocus = false) {
+    header.classList.toggle('nav-is-open', open);
+    toggle.setAttribute('aria-expanded', String(open));
+    toggle.setAttribute('aria-label', open ? 'Закрыть меню' : 'Открыть меню');
+    if (restoreFocus) toggle.focus();
+  }
+  toggle.addEventListener('click', () => setOpen(toggle.getAttribute('aria-expanded') !== 'true'));
+  nav.addEventListener('click', event => {
+    const link = event.target.closest('a');
+    if (!link || !compact.matches) return;
+    setOpen(false);
+    const section = document.querySelector(link.hash);
+    if (section) {
+      section.tabIndex = -1;
+      section.focus({ preventScroll: true });
+    }
+  });
+  document.addEventListener('click', event => {
+    if (!nav.contains(event.target) && !toggle.contains(event.target)) setOpen(false);
+  });
+  header.addEventListener('focusout', event => {
+    if (!header.contains(event.relatedTarget)) setOpen(false);
+  });
+  document.addEventListener('keydown', event => {
+    if (event.key === 'Escape' && toggle.getAttribute('aria-expanded') === 'true') setOpen(false, true);
+  });
+  compact.addEventListener('change', () => {
+    const focusWasInNav = nav.contains(document.activeElement);
+    setOpen(false, compact.matches && focusWasInNav);
+  });
+  header.classList.add('nav-ready');
+}
 
 function formatPrice(price) {
   return new Intl.NumberFormat('ru-RU').format(price) + ' ₽';
@@ -35,7 +85,7 @@ function createDishCard(dish, index) {
   photo.append(img);
   const arrow = document.createElement('span');
   arrow.className = 'dish-arrow';
-  arrow.textContent = '↗';
+  arrow.append(createIcon('arrow-up-right'));
   arrow.setAttribute('aria-hidden', 'true');
   photo.append(arrow);
   if (dish.id === 2) {
@@ -94,18 +144,19 @@ function openDish(dish) {
   link.target = '_blank';
   link.rel = 'noopener noreferrer';
   link.className = 'button button-solid';
-  link.textContent = 'Заказать в Яндекс Еде ↗';
+  link.append('Заказать в Яндекс Еде', createIcon('arrow-up-right'));
   const note = document.createElement('small');
   note.textContent = 'Цена доставки. Состав, аллергены и актуальную стоимость уточняйте при заказе.';
   info.append(weight, title, description, price, link, note);
   content.append(img, info);
   dishDialog.setAttribute('aria-labelledby', 'dish-title');
   dishDialog.showModal();
+  dishDialog.scrollTop = 0;
 }
 
 function setupDialogs() {
   bookingDialog.setAttribute('aria-label', 'Бронирование стола по телефону');
-  document.querySelectorAll('[data-book]').forEach(button => button.addEventListener('click', () => bookingDialog.showModal()));
+  document.querySelectorAll('[data-book]').forEach(button => button.addEventListener('click', () => { bookingDialog.showModal(); bookingDialog.scrollTop = 0; }));
   document.querySelectorAll('dialog').forEach(dialog => {
     dialog.querySelector('[data-close]').addEventListener('click', () => dialog.close());
     dialog.addEventListener('click', event => {
@@ -131,19 +182,21 @@ function setupScrollEffects() {
   let scheduled = false;
   function updateScroll() {
     header.classList.toggle('scrolled', window.scrollY > 30);
-    if (!motionPreference.matches && window.scrollY < 950) photo.style.transform = `translateY(${Math.min(window.scrollY * 0.05, 18)}px) scale(1.08)`;
-    else if (motionPreference.matches) photo.style.transform = '';
+    if (!motionPreference.matches && desktopMotion.matches && window.scrollY < 950) photo.style.transform = `translateY(${Math.min(window.scrollY * 0.05, 18)}px) scale(1.08)`;
+    else photo.style.transform = '';
     scheduled = false;
   }
   window.addEventListener('scroll', () => {
     if (!scheduled) { scheduled = true; requestAnimationFrame(updateScroll); }
   }, { passive: true });
   motionPreference.addEventListener('change', updateScroll);
+  desktopMotion.addEventListener('change', updateScroll);
   updateScroll();
 }
 
 document.querySelectorAll('[data-category]').forEach(button => button.addEventListener('click', () => renderMenu(button.dataset.category)));
 document.querySelector('#year').textContent = new Date().getFullYear();
 renderMenu();
+setupNavigation();
 setupDialogs();
 setupScrollEffects();
